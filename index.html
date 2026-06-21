@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sealed Air - Icon Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    canvas {
+      margin: 10px;
+      border-radius: 12px;
+      border: 2px solid #ddd;
+      max-width: 100%;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    .note {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>📱 Sealed Air</h1>
+  <h2>Icon Generator</h2>
+  <p>Your icons will be generated below. Click the button to download them.</p>
+
+  <div>
+    <canvas id="canvas192" width="192" height="192"></canvas>
+    <canvas id="canvas512" width="512" height="512"></canvas>
+  </div>
+
+  <button onclick="downloadIcons()">📥 Download Icons</button>
+
+  <p class="note">
+    Files will download as: <strong>icon-192.png</strong> and <strong>icon-512.png</strong>
+  </p>
+</div>
+
+<script>
+  function drawIcon(canvasId, size) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+
+    // Background - Sealed Air blue
+    ctx.fillStyle = '#2563eb';
+    ctx.fillRect(0, 0, size, size);
+
+    // White circle
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2.4, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+
+    // "S" text
+    ctx.fillStyle = '#2563eb';
+    ctx.font = `bold ${size / 2}px Arial, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('S', size / 2, size / 2 + 5);
+  }
+
+  function downloadIcons() {
+    const canvas192 = document.getElementById('canvas192');
+    const canvas512 = document.getElementById('canvas512');
+
+    // Download 192x192
+    const link192 = document.createElement('a');
+    link192.download = 'icon-192.png';
+    link192.href = canvas192.toDataURL('image/png');
+    link192.click();
+
+    // Download 512x512
+    const link512 = document.createElement('a');
+    link512.download = 'icon-512.png';
+    link512.href = canvas512.toDataURL('image/png');
+    link512.click();
+  }
+
+  // Draw both icons when page loads
+  drawIcon('canvas192', 192);
+  drawIcon('canvas512', 512);
+</script>
+
+</body>
+</html>
