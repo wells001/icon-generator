@@ -29,19 +29,42 @@
       color: white;
       border: none;
       padding: 14px 30px;
-      font-size: 18px;
+      font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
-      margin-top: 20px;
-      width: 100%;
+      margin: 10px 5px;
+      width: 90%;
+      max-width: 300px;
     }
     button:hover {
       background: #1d4ed8;
+    }
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
     }
     .note {
       margin-top: 20px;
       font-size: 14px;
       color: #666;
+    }
+    .icon-preview {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .icon-preview div {
+      text-align: center;
+    }
+    .icon-preview p {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -50,17 +73,26 @@
 <div class="container">
   <h1>📱 Sealed Air</h1>
   <h2>Icon Generator</h2>
-  <p>Your icons will be generated below. Click the button to download them.</p>
+  <p>Download your PWA icons below. Each button downloads a different size.</p>
 
-  <div>
-    <canvas id="canvas192" width="192" height="192"></canvas>
-    <canvas id="canvas512" width="512" height="512"></canvas>
+  <div class="icon-preview">
+    <div>
+      <canvas id="canvas192" width="192" height="192"></canvas>
+      <p>192×192 (Android)</p>
+    </div>
+    <div>
+      <canvas id="canvas512" width="512" height="512"></canvas>
+      <p>512×512 (iPhone/Tablet)</p>
+    </div>
   </div>
 
-  <button onclick="downloadIcons()">📥 Download Both Icons</button>
+  <div class="button-group">
+    <button onclick="downloadIcon('192')">📱 Download 192×192 Icon</button>
+    <button onclick="downloadIcon('512')">📱 Download 512×512 Icon</button>
+  </div>
 
   <p class="note">
-    Downloads: <strong>icon-192.png</strong> and <strong>icon-512.png</strong>
+    Files will download as: <strong>icon-192.png</strong> and <strong>icon-512.png</strong>
   </p>
 </div>
 
@@ -69,14 +101,17 @@
     const canvas = document.getElementById(canvasId);
     const ctx = canvas.getContext('2d');
 
+    // Background - Sealed Air blue
     ctx.fillStyle = '#2563eb';
     ctx.fillRect(0, 0, size, size);
 
+    // White circle
     ctx.beginPath();
     ctx.arc(size / 2, size / 2, size / 2.4, 0, Math.PI * 2);
     ctx.fillStyle = '#ffffff';
     ctx.fill();
 
+    // "S" text
     ctx.fillStyle = '#2563eb';
     ctx.font = `bold ${size / 2}px Arial, sans-serif`;
     ctx.textAlign = 'center';
@@ -84,21 +119,17 @@
     ctx.fillText('S', size / 2, size / 2 + 5);
   }
 
-  function downloadIcons() {
-    const canvas192 = document.getElementById('canvas192');
-    const canvas512 = document.getElementById('canvas512');
-
-    const link192 = document.createElement('a');
-    link192.download = 'icon-192.png';
-    link192.href = canvas192.toDataURL('image/png');
-    link192.click();
-
-    const link512 = document.createElement('a');
-    link512.download = 'icon-512.png';
-    link512.href = canvas512.toDataURL('image/png');
-    link512.click();
+  function downloadIcon(size) {
+    const canvasId = size === '192' ? 'canvas192' : 'canvas512';
+    const canvas = document.getElementById(canvasId);
+    
+    const link = document.createElement('a');
+    link.download = `icon-${size}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
   }
 
+  // Draw both icons when page loads
   drawIcon('canvas192', 192);
   drawIcon('canvas512', 512);
 </script>
